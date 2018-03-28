@@ -1,0 +1,210 @@
+<div class="row">
+    <div class="col-menu no-padding">
+        <div class="menu">
+            <div class="header">
+                Привіт,  ім'я людини  !
+            </div>
+            <div class="items" ng-controller="userPurchase">
+                <ul class="nav">
+                    <li class="active">
+                        <a href="#!">
+                            <i class="material-icons">dashboard</i>
+                            <p>Головна</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#!operations" ng-click="userpurchase()">
+                            <i class="material-icons">book</i>
+                            <p>Операції</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <i class="material-icons">person</i>
+                            <p>Профіль</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <i class="material-icons">lock</i>
+                            <p>Вихід</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-content no-padding">
+        <div class="content">
+            <div class="header">
+                Pocket tracker
+            </div>
+            <div class="row" >
+                <div class="col-md-4">
+                    <div class="card">
+                        <canvas class="chart green" id="myChart"></canvas>
+                        <div class="sub">
+                            <div class="head">
+                                Витрачено грошей
+                            </div>
+                            <div class="description">
+                                <i class="material-icons">access_time</i>
+                                оновленно сьогодні
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <canvas class="chart blue" id="myChartCount"></canvas>
+                        <div class="sub">
+                            <div class="head">
+                                Зроблено покупок
+                            </div>
+                            <div class="description">
+                                <i class="material-icons">access_time</i>
+                                оновленно сьогодні
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="chart orange" id="chrtor"></div>
+                        <div class="sub">
+                            <div class="head">
+                                Отримано прибутку
+                            </div>
+                            <div class="description">
+                                <i class="material-icons">date_range</i>
+                                оновленно цього року
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-controller="addPurchase">
+                <div class="col-md-6" ng-init="getCharts()">
+                    <div class="card container">
+                        <div class="head">
+                            Додати витрату
+                        </div>
+                        <div class="modal fade" id="myModal">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">{{message}}</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <form>
+                            <div class="row" style="padding: 15px 0px;">
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="material-icons">label</i>
+                                        </span>
+                                        <input type="text" class="form-control" placeholder="Назва" ng-model="title_purchase">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="material-icons">label</i>
+                                        </span>
+                                        <input type="text" class="form-control" placeholder="Опис" ng-model="description_purchase">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group pdg">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">credit_card</i>
+                                </span>
+                                <input type="text" class="form-control" placeholder="Витрачено грошей" ng-model="ammount_purchase">
+                            </div>
+                            <div class="input-group pdg">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">account_balance</i>
+                                </span>
+                                <select name="" id=""  class="form-control" ng-model="type_purchase">
+                                    <option value="Дисципліна" selected disabled>Тип</option>
+                                    <option value="Їжа">Їжа</option>
+                                    <option value="Одяг">Одяг</option>
+                                    <option value="Розваги">Розваги</option>
+                                </select>
+                            </div>
+                            <div class="input-group pdg" >
+                                <button type="button"  class="btn btn-primary mrg"  data-toggle="modal" data-target="#myModal"  ng-click="addpurchase()">
+                                    Додати
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-6" ng-controller="addIncome">
+                    <div class="card container">
+                        <div class="head">
+                            Додати прибуток
+                        </div>
+                        <div class="modal fade" id="myModalIncome">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">{{message}}</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <form>
+                            <div class="row" style="padding: 15px 0px;">
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="material-icons">account_box</i>
+                                        </span>
+                                        <input type="text" class="form-control" placeholder="Назва" ng-model="title_income">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="material-icons">email</i>
+                                        </span>
+                                        <input type="text" class="form-control" placeholder="Опис" ng-model="description_income">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group pdg">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">info</i>
+                                </span>
+                                <input type="text" class="form-control" placeholder="Сума" ng-model="ammount_income">
+                            </div>
+                            <div class="input-group pdg">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">format_list_numbered</i>
+                                </span>
+                                <select name="" id=""  class="form-control" ng-model="type_income">
+                                    <option value="" selected disabled>Тип</option>
+                                    <option value="Зарплата">Зарплата</option>
+                                    <option value="Знайшов">Знайшов на вулиці</option>
+                                    <option value="Позика">Позика</option>
+                                    <option value="Кекос">Кекос</option>
+                                </select>
+                            </div>
+                            <div class="input-group pdg">
+                                <button class="btn btn-primary mrg" data-target="#myModalIncome" ng-click="addIncome()">
+                                    Додати
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

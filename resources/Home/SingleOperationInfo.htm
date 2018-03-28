@@ -1,0 +1,66 @@
+<div class="row">
+    <div class="col-menu no-padding" ng-controller="userPurchase">
+        <div class="menu">
+            <div class="header">
+                Привіт,  ім'я людини  !
+            </div>
+            <div class="items" >
+                <ul class="nav">
+                    <li>
+                        <a href="#!">
+                            <i class="material-icons">dashboard</i>
+                            <p>Головна</p>
+                        </a>
+                    </li>
+                    <li  class="active">
+                        <a href="#!operations">
+                            <i class="material-icons">book</i>
+                            <p>Операції</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <i class="material-icons">person</i>
+                            <p>Профіль</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <i class="material-icons">lock</i>
+                            <p>Вихід</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-content no-padding" ng-controller="allPurchase">
+        <div class="content" >
+            <div class="header">
+                Pocket tracker
+            </div>
+
+            <div class="card container single" ng-controller="singlePurchase">
+                <div class="row" ng-init="getSinglePurchase()">
+                <div class="thumbnail col-md-6"><img src="{{img}}" class="left"/></div>
+                <div class="right col-md-6">
+                    <div class="author">
+                        <h2 style="text-align: center">{{purchase.title}}</h2>
+                    </div>
+                    <div class="separator"></div>
+                    <p>{{purchase.description}}</p>
+                </div>
+                </div>
+                <div class="row Desc_purch"><div class="col-md-3">Тип : {{purchase.type}}</div><div class="col-md-3">Витрата : {{purchase.ammount}} Гривен</div><div class="col-md-4"></div><div class="col-md-2" style="float:right">Дата : {{purchase.date}}</div></div>
+                <ul class="ul_hor">
+                    <li><i class="fa fa-eye fa-2x"></i></li>
+                    <li><i class="fa fa-heart-o fa-2x"></i></li>
+                    <li><i class="fa fa-envelope-o fa-2x"></i></li>
+                    <li><i class="fa fa-share-alt fa-2x"></i></li>
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,74 @@
+
+<div class="row">
+    <div class="col-menu no-padding" ng-controller="userPurchase">
+        <div class="menu">
+            <div class="header">
+                Привіт,  ім'я людини  !
+            </div>
+            <div class="items" >
+                <ul class="nav">
+                    <li>
+                        <a href="#!">
+                            <i class="material-icons">dashboard</i>
+                            <p>Головна</p>
+                        </a>
+                    </li>
+                    <li  class="active">
+                        <a href="#!operations">
+                            <i class="material-icons">book</i>
+                            <p>Операції</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <i class="material-icons">person</i>
+                            <p>Профіль</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <i class="material-icons">lock</i>
+                            <p>Вихід</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-content no-padding" ng-controller="allPurchase">
+        <div class="content" >
+            <div class="header">
+                Pocket tracker
+            </div>
+            <div class="input-group pdg">
+                <span class="input-group-addon">
+                    <i class="material-icons">account_balance</i>
+                </span>
+                <select ng-model="sort_by"  class="form-control" >
+                    <option value="Дата">Дата</option>
+                    <option value="Ціна">Ціна</option>
+                    <option value="Тип">Тип</option>
+                </select>
+                <button class="btn btn-primary mrg" style="border-bottom-left-radius: 0;border-top-left-radius: 0;" ng-click="sortBy()">
+                    Сортувати
+                </button>
+            </div>
+            <table class="table table-striped table_all">
+                <thead class="table_head">
+                <tr>
+                    <th>title</th>
+                    <th>type</th>
+                    <th>date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="x in purchases" ng-click="getPurchasesUser(x._id)" >
+                    <td>{{x.title}}</td>
+                    <td>{{x.type}}</td>
+                    <td>{{x.date}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="container autism">
+    <div class="col-md-6" style="display:inline-block" ng-controller="signUp">
+        <div class="col-md-12 "><h1>Login</h1> </div>
+        <div class="col-md-12 text_above_login">Register here or  <a href="#!">Login</a></div>
+        <div class="col-md-12 ">
+            <div class="mdl-textfield mdl-js-textfield input-form-login" >
+                <input class="mdl-textfield__input " type="text" id="login-field" ng-model="name">
+                <i class="fa fa-address-card login-4eliks" aria-hidden="true"></i>
+                <label class="mdl-textfield__label" for="login-field">Name </label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield input-form-login" >
+                <input class="mdl-textfield__input " type="text" id="email-field" ng-model="email">
+                <i class="fa fa-address-card login-4eliks" aria-hidden="true"></i>
+                <label class="mdl-textfield__label" for="login-field">Email </label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield input-form-login" >
+                <i class="fa fa-lock login-4eliks" aria-hidden="true"></i>
+                <input class="mdl-textfield__input" type="text" id="password-field" ng-model="pass">
+                <label class="mdl-textfield__label" for="password-field">Password</label>
+            </div>
+        </div>
+        <div class="col-md-12 login-options">
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored login-button" id="login-button" ng-click="signup()">
+                Register
+            </button>
+        </div>
+        <div class="col-md-12 other-logins" >
+        </div>
+    </div>
+    <div class="col-md-6 right-column-login right-column-register"  > <div class="greeter"><h3>HELLO</h3>Welcome</div></div>
+</div>
