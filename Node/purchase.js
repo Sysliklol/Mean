@@ -9,7 +9,7 @@ const uuidv1 = require('uuid/v1');
 
 module.exports = {
 
-    createPurchase: function (title,description,type,ammount,userId,placeId,callback) {
+    createPurchase: function (title,description,type,ammount,userId,latitude,longtitude,callback) {
         MongoClient.connect(url,function (err,client) {
             var db = client.db(dbUrl);
 
@@ -20,8 +20,9 @@ module.exports = {
             "description": description,
             "type": type,
             "ammount":ammount,
+            "latitude": latitude,
+            "longtitude": longtitude,
             "userId": userId,
-            "placeId": placeId,
             "date":new Date()
         },function(err, result){
             assert.equal(err, null);

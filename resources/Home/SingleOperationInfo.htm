@@ -2,7 +2,7 @@
     <div class="col-menu no-padding" ng-controller="userPurchase">
         <div class="menu">
             <div class="header">
-                Привіт,  ім'я людини  !
+                Привіт,  {{username}}  !
             </div>
             <div class="items" >
                 <ul class="nav">
@@ -45,10 +45,11 @@
                 <div class="thumbnail col-md-6"><img src="{{img}}" class="left"/></div>
                 <div class="right col-md-6">
                     <div class="author">
-                        <h2 style="text-align: center">{{purchase.title}}</h2>
+                        <h2 style="text-align: center; margin:0">{{purchase.title}}</h2>
                     </div>
                     <div class="separator"></div>
                     <p>{{purchase.description}}</p>
+                    <div id="map" style="height: 70%; width:75%;margin-left: 12.5%" ></div>
                 </div>
                 </div>
                 <div class="row Desc_purch"><div class="col-md-3">Тип : {{purchase.type}}</div><div class="col-md-3">Витрата : {{purchase.ammount}} Гривен</div><div class="col-md-4"></div><div class="col-md-2" style="float:right">Дата : {{purchase.date}}</div></div>

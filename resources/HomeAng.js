@@ -2,6 +2,7 @@ let HomeApp =  angular.module('HomeApp', ["ngRoute"]);
 let labels = [new Date(new Date().setDate(new Date().getDate()-6)).toLocaleDateString("fr-CA"),new Date(new Date().setDate(new Date().getDate()-5)).toLocaleDateString("fr-CA"),new Date(new Date().setDate(new Date().getDate()-4)).toLocaleDateString("fr-CA"),new Date(new Date().setDate(new Date().getDate()-3)).toLocaleDateString("fr-CA"),new Date(new Date().setDate(new Date().getDate()-2)).toLocaleDateString("fr-CA"),new Date(new Date().setDate(new Date().getDate()-1)).toLocaleDateString("fr-CA"),new Date(new Date().setDate(new Date().getDate())).toLocaleDateString("fr-CA")]
 let purchases = null;
 let currPurchase = null;
+
 HomeApp.config(($routeProvider) => {
     $routeProvider
         .when("/", {
@@ -14,27 +15,22 @@ HomeApp.config(($routeProvider) => {
             templateUrl : "/Home/SingleOperationInfo.htm"
         })
 });
+var options = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 600000
+};
+
+function error(err) {
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+};
 
 HomeApp.controller('addPurchase',($scope, $http) => {
-
  $scope.message = "added ur purchase! :)";
     $scope.addpurchase = function () {
-        $http.post("/api/addPurchase", {
-            "title": $scope.title_purchase,
-            "description": $scope.description_purchase,
-            "type": $scope.type_purchase,
-            "ammount": $scope.ammount_purchase,
-        }).then(function(response) {
-            if(response.data == "failure"){
-                $scope.message = "error on ading! :(";
-            }
-            else {
-                $scope.message = "added ur purchase! :)";
-            }
-            getPurchase($http);
-
-        });
-
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition,error, options);
+        }
     }
     $scope.getCharts = function (){
         if(purchases) {
@@ -42,14 +38,38 @@ HomeApp.controller('addPurchase',($scope, $http) => {
             getCountPurch();
         }
     }
+    function showPosition(position) {
+        $scope.latitude = position.coords.latitude;
+        $scope.longtitude = position.coords.longitude;
+        console.log( $scope.longtitude)
+        $http.post("/api/addPurchase", {
+            "title": $scope.title_purchase,
+            "description": $scope.description_purchase,
+            "type": $scope.type_purchase,
+            "ammount": $scope.ammount_purchase,
+            "latitude": $scope.latitude,
+            "longtitude": $scope.longtitude
 
+        }).then((response)=>{
+            if(response.data == "failure"){
+                $scope.message = "error on ading! :(";
+            }
+            else {
+                $scope.message = "added ur purchase! :)";
+            }
+            getPurchase($http);
+        });
+    }
 });
 
-HomeApp.controller('userPurchase', ($scope, $http)=> {
+HomeApp.controller('userPurchase', ($scope, $http,$rootScope)=> {
     if (purchases == null) {
     angular.element(document).ready(function () {
         getPurchase($http);
-
+        $http.get("/api/user",{
+        }).then((response)=>{
+            $rootScope.username = response.data;
+        })
     });
     }
 });
@@ -102,18 +122,27 @@ HomeApp.controller('singlePurchase',($scope, $http) =>{
 
     $scope.getSinglePurchase = function(){
         $scope.purchase = currPurchase;
-        console.log($scope.purchase.type)
-        switch($scope.purchase.type){
+        let map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: $scope.purchase.latitude, lng: $scope.purchase.longtitude},
+            zoom: 15
+        });
+        var marker = new google.maps.Marker({
+            position: {lat: $scope.purchase.latitude, lng: $scope.purchase.longtitude},
+            map: map,
+            title: 'purchase'
+        });
+        console.log($scope.purchase.latitude+ " " +$scope.purchase.longtitude)
+        console.log($scope.purchase)
+        switch($scope.purchase.type)    {
             case("Їжа"):{$scope.img="https://cdn2.hubspot.net/hubfs/322787/Mychefcom/images/BLOG/Header-Blog/photo-culinaire-pexels.jpg"; break;}
             case("Одяг"):{$scope.img="https://a.suitsupplycdn.com/image/upload/v1519740025/suitsupply/homepage/ss18/week09/v2/newarrivals_858.jpg"; break;}
-            case("Розваги"):{$scope.img="https://www.partners-in-harvest.org/the-hidden-truth-about-entertainment/";break;}
+            case("Розваги"):{$scope.img="https://www.partners-in-harvest.org/wp-content/uploads/2017/12/p1500669900108.jpg";break;}
             default:{$scope.img="https://cdn2.hubspot.net/hubfs/322787/Mychefcom/images/BLOG/Header-Blog/photo-culinaire-pexels.jpg"; break;}
         }
 
     }
 
 })
-
 
 HomeApp.controller('addIncome',($scope,$http) =>{
     $scope.message = "added ur income! :)";
@@ -137,12 +166,19 @@ HomeApp.controller('addIncome',($scope,$http) =>{
     }
 
 })
+
 function getPurchase($http){
     $http.get("/api/userPurchase", {}).then(function (response) {
         purchases = response.data;
         purchases.forEach(function(x){
             if(x.date)x.date = x.date.substring(0,10)
 
+            switch(x.type){
+                case("Їжа"):{x.img="https://cdn2.hubspot.net/hubfs/322787/Mychefcom/images/BLOG/Header-Blog/photo-culinaire-pexels.jpg"; break;}
+                case("Одяг"):{x.img="https://a.suitsupplycdn.com/image/upload/v1519740025/suitsupply/homepage/ss18/week09/v2/newarrivals_858.jpg"; break;}
+                case("Розваги"):{x.img="https://www.partners-in-harvest.org/wp-content/uploads/2017/12/p1500669900108.jpg";break;}
+                default:{x.img="https://cdn2.hubspot.net/hubfs/322787/Mychefcom/images/BLOG/Header-Blog/photo-culinaire-pexels.jpg"; break;}
+            }
         });
         getDates();
         getCountPurch();
@@ -154,14 +190,15 @@ function getDates(){
     let data  = [0,0,0,0,0,0,0];
     purchases.forEach(function(x){
         if(x.date){
+
         switch(x.date){
-            case(new Date(new Date().setDate(new Date().getDate())).toLocaleDateString("fr-CA")):{data[6]+=x.ammount;  break;}
-            case(new Date(new Date().setDate(new Date().getDate()-1)).toLocaleDateString("fr-CA")):{data[5]+=x.ammount; break;}
-            case(new Date(new Date().setDate(new Date().getDate()-2)).toLocaleDateString("fr-CA")):{data[4]+=x.ammount; break;}
-            case(new Date(new Date().setDate(new Date().getDate()-3)).toLocaleDateString("fr-CA")):{data[3]+=x.ammount; break;}
-            case(new Date(new Date().setDate(new Date().getDate()-4)).toLocaleDateString("fr-CA")):{data[2]+=x.ammount; break;}
-            case(new Date(new Date().setDate(new Date().getDate()-5)).toLocaleDateString("fr-CA")):{data[1]+=x.ammount; break;}
-            case(new Date(new Date().setDate(new Date().getDate()-6)).toLocaleDateString("fr-CA")):{data[0]+=x.ammount; break;}
+            case(new Date(new Date().setDate(new Date().getDate())).toLocaleDateString("fr-CA")):{data[6]+=parseInt(x.ammount);  break;}
+            case(new Date(new Date().setDate(new Date().getDate()-1)).toLocaleDateString("fr-CA")):{data[5]+=parseInt(x.ammount); break;}
+            case(new Date(new Date().setDate(new Date().getDate()-2)).toLocaleDateString("fr-CA")):{data[4]+=parseInt(x.ammount); break;}
+            case(new Date(new Date().setDate(new Date().getDate()-3)).toLocaleDateString("fr-CA")):{data[3]+=parseInt(x.ammount); break;}
+            case(new Date(new Date().setDate(new Date().getDate()-4)).toLocaleDateString("fr-CA")):{data[2]+=parseInt(x.ammount); break;}
+            case(new Date(new Date().setDate(new Date().getDate()-5)).toLocaleDateString("fr-CA")):{data[1]+=parseInt(x.ammount); break;}
+            case(new Date(new Date().setDate(new Date().getDate()-6)).toLocaleDateString("fr-CA")):{data[0]+=parseInt(x.ammount); break;}
         }}
     });
    createGraph(data,"myChart","Money spent");
@@ -206,3 +243,6 @@ function createGraph(data,elementName,title){
         //log her :)
     }
 }
+
+
+

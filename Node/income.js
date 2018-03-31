@@ -10,23 +10,26 @@ const uuidv1 = require('uuid/v1');
 module.exports = {
 
     createIncome: function (title,description,ammount,type,userId,callback) {
-        db.collection('income').insertOne( {
-            "_id" : uuidv1(),
-            "title": title,
-            "description": description,
-            "ammount":ammount,
-            "type":type,
-            "userId": userId
-        },function(err, result){
-            assert.equal(err, null);
-            console.log("Saved income.");
-            if(result) {
-                callback(true);
-            }
-            else {
-                callback(false);
-            }
-        });
+        MongoClient.connect(url,function (err,client) {
+            var db = client.db(dbUrl);
+            db.collection('income').insertOne({
+                "_id": uuidv1(),
+                "title": title,
+                "description": description,
+                "ammount": ammount,
+                "type": type,
+                "userId": userId
+            }, function (err, result) {
+                assert.equal(err, null);
+                console.log("Saved income.");
+                if (result) {
+                    callback(true);
+                }
+                else {
+                    callback(false);
+                }
+            });
+        })
     },
     getIncomes: function(userId,callback){
         MongoClient.connect(url,function (err,client) {

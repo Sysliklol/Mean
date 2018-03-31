@@ -25,7 +25,6 @@ module.exports = {
                 }
                 else{
                     if(isValidPassword(result,password)){
-                        console.log(result);
                         callback(result._id);
                     }
                 }

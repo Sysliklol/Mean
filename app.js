@@ -21,32 +21,21 @@ app.use(bodyParser.json());
 app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
 app.use('/api',router);
 
-router.route('/user/:userId')
-    .get((req,res) => {
-        let id = req.params.userId;
-        user.getUser(id,result => {
-            if(result){
-                res.json(result);
-            }
-            else{
-                res.send("not found");
-            }
-        })
-
-    });
-
 router.route('/user')
     .get((req,res) => {
-
-        user.getAllUsers(result => {
+        user.getUser(sessions.username,result => {
             if(result){
-                res.send(result);
+
+                res.json(result.name);
             }
             else{
-                res.send("not found");
+                res.send("Username");
             }
         })
+
     });
+
+
 
 router.route('/userPurchase/')
     .get((req,res) => {
@@ -63,7 +52,7 @@ router.route('/userPurchase/')
     });
 
 router.route('/userIncome/')
-    .get((req,res) =>{
+    .get((req,res) => {
         let userId = sessions.username;
 
         income.getIncomes(userId,result =>{
@@ -99,14 +88,15 @@ router.route('/addPurchase/')
         let type = req.body.type;
         let ammount = req.body.ammount;
         let userId = sessions.username;
-
-        if (title && description && type && userId){
-            purchase.createPurchase(title,description,type,ammount,userId,1, result => {
-                if(result){
+        let latitude = req.body.latitude;
+        let longtitude = req.body.longtitude;
+        if (title && description && type && userId) {
+            purchase.createPurchase(title, description, type, ammount, userId, latitude, longtitude, result => {
+                if (result) {
                     console.log("Created purchase with id  " + result._id);
                     res.send("success");
                 }
-                else{
+                else {
                     res.send("failure");
                 }
             })
@@ -125,7 +115,7 @@ router.route('/addIncome/')
         let userId = sessions.username;
 
         if (title && description && type && userId){
-            income.createIncome(title,description,type,ammount,userId,1, result => {
+            income.createIncome(title,description,type,ammount,userId, result => {
                 if(result){
                     console.log("Created Income with id  " + result._id);
                     res.send("success");
@@ -197,6 +187,7 @@ app.get('/home',(req,res) => {
 
 app.get('/signout',(req,res) => {
     sessions = null;
+    res.sendFile(__dirname + '/resources/Login/index.html');
 })
 app.listen(7777,() => {
     console.log("Started server on", 7777);
