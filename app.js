@@ -195,3 +195,5 @@ app.listen(7777,() => {
 
 
 app.use(express.static(path.join(__dirname,"./resources/")));
+
+

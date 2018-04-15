@@ -246,3 +246,11 @@ function createGraph(data,elementName,title){
 
 
 
+function show(name) {
+    var x = document.getElementById("col-menu");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}

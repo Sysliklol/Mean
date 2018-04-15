@@ -1,6 +1,6 @@
-
+<div class="menu-button" onclick="show('col-menu')"><i class="material-icons">list</i></div>
 <div class="row">
-    <div class="col-menu no-padding" ng-controller="userPurchase">
+    <div id="col-menu" class="col-menu no-padding" ng-controller="userPurchase">
         <div class="menu">
             <div class="header">
                 Привіт,  {{username}} !
@@ -56,7 +56,7 @@
 
             <div class="container">
                 <div calss="row">
-                <div class="col-md-5 item-purchase" ng-repeat="x in purchases"  style="display: inline-block" >
+                <div class="col-md-3 item-purchase" ng-repeat="x in purchases"  style="display: inline-block" >
 
                     <h1 class="item-header">{{x.title}}</h1>
                     <div>
