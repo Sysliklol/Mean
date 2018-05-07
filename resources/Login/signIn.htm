@@ -4,13 +4,13 @@
         <div class="col-md-12 text_above_login">Lost account or  <a href="#!signUp">Register</a></div>
         <div class="col-md-12 " >
             <div class="mdl-textfield mdl-js-textfield input-form-login" >
-                <input class="mdl-textfield__input " type="text" id="login-field" ng-model="name" >
+                <input class="mdl-textfield__input " type="text" id="login-field" ng-model="name" name='email' >
                 <i class="fa fa-address-card login-4eliks" aria-hidden="true"></i>
                 <label class="mdl-textfield__label" for="login-field">Email </label>
             </div>
             <div class="mdl-textfield mdl-js-textfield input-form-login" >
                 <i class="fa fa-lock login-4eliks" aria-hidden="true"></i>
-                <input class="mdl-textfield__input" type="password" id="password-field" ng-model="pass">
+                <input class="mdl-textfield__input" type="password" id="password-field" ng-model="pass" name='password'>
                 <label class="mdl-textfield__label" for="password-field">Password</label>
             </div>
         </div>
@@ -18,7 +18,8 @@
             <div class="col-md-12 remember-me-checkbox">
                 <span><input type="checkbox" id="CheckBoxRemember" name="CheckBoxRemember" ><label >Remember me</label></span>
             </div>
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored login-button" id="login-button" ng-click="signin()">
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored login-button" id="login-button" ng-click="signin()" name="submit" type="submit"
+                    value="submit" >
                 Login
             </button>
         </div>

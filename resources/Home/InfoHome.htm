@@ -1,0 +1,146 @@
+<div class="menu-button" onclick="show('col-menu')"><i class="material-icons">list</i></div>
+<div class="row">
+    <div id="col-menu" class="col-menu no-padding" ng-controller="userPurchase">
+        <div class="menu">
+            <div class="header">
+                Доброго дня !
+            </div>
+            <div class="items" >
+                <ul class="nav">
+                    <li>
+                        <a href="#!">
+                            <i class="material-icons">dashboard</i>
+                            <p>Головна</p>
+                        </a>
+                    </li>
+                    <li  >
+                        <a href="#!operations">
+                            <i class="material-icons">book</i>
+                            <p>Операції</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a ng-click="map()">
+                            <i class="material-icons">person</i>
+                            <p>Додати місце</p>
+                        </a>
+                    </li>
+
+                    <li class="active">
+                        <a href="#!infoHome">
+                            <i class="material-icons">lock</i>
+                            <p>Statistics</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="signout">
+                            <i class="material-icons">lock</i>
+                            <p>Вихід</p>
+                        </a>
+                    </li>
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-content no-padding" ng-controller="stats">
+        <div class="content" >
+            <div class="header">
+                Pocket tracker
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card container" >
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div id="pieChart" class="piechart"></div>
+                            </div>
+                            <div class="col-md-5">
+                                <h1 style="font-size:36px;">Загальна сума</h1>
+                                <h2 style="font-size:28px;" id="sum_stats"></h2>
+                                <div class="row">
+                                    <div class="col-md-5"><span style="background:#fe4400;width:20px;height:16px;display:inline-block;padding-top:3px"></span> Витрати</div>
+                                    <div class="col-md-5"><span style="background:#018ab6;width:20px;height:16px;display:inline-block;padding-top:3px"></span> Доходи</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card container " >
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div id="pieChartType" class="piechart"></div>
+                            </div>
+                            <div class="col-md-5">
+                                <h1 style="font-size:36px;">Типи операцій</h1>
+                                <h2 style="font-size:28px;" id="sum_types"></h2>
+                                <div class="row" id="types_stats">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card container " >
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div id="pieChartTypeSum" class="piechart"></div>
+                            </div>
+                            <div class="col-md-5">
+                                <h1 style="font-size:36px;">Сума за типами</h1>
+                                <div class="row" id="types_sum_stats">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card container " >
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div id="pieChartDate" class="piechart"></div>
+                            </div>
+                            <div class="col-md-5">
+                                <h1 style="font-size:36px;">Витрати по роках</h1>
+                                <div class="row" id="dates_stats">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card container " >
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div id="pieChartPlaces" class="piechart"></div>
+                            </div>
+                            <div class="col-md-5">
+                                <h1 style="font-size:36px;">Кількість операцій по місцях</h1>
+                                <div class="row" id="places_stats">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card container " >
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div id="pieChartPlaceSum" class="piechart"></div>
+                            </div>
+                            <div class="col-md-5">
+                                <h1 style="font-size:36px;">Сума операцій по місцях</h1>
+                                <div class="row" id="places_sum_stats">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

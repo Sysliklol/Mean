@@ -9,8 +9,10 @@ let passport = require('passport');
 
 
 let user = require('./Node/user');
-let purchase = require('./Node/purchase');
-let income = require('./Node/income');
+/*let purchase = require('./Node/purchase');
+let income = require('./Node/income');*/
+let transaction = require('./Node/transaction')
+let place = require('./Node/place')
 
 let app = express();
 let router = express.Router();
@@ -37,7 +39,7 @@ router.route('/user')
 
 
 
-router.route('/userPurchase/')
+/*router.route('/userPurchase/')
     .get((req,res) => {
         let userId = sessions.username;
 
@@ -105,22 +107,51 @@ router.route('/addPurchase/')
             res.send("failure")
         }
     });
-router.route('/addIncome/')
+*/
+router.route('/transactions/all/')
+    .get((req,res) => {
+        let userId = sessions.username;
+
+        transaction.getUserPurchase(userId,result =>{
+            if(result){
+                res.send(result);
+            }
+            else{
+                res.send("nothing found");
+            }
+        })
+    });
+
+router.route('/transactions/delete/')
+    .post((req,res) => {
+        let id = req.body.id;
+
+        transaction.deletePurchase(id,result =>{
+            if(result){
+                res.send(result);
+            }
+            else{
+                res.send("nothing found");
+            }
+        })
+    });
+
+router.route('/transactions/create')
     .post((req,res) => {
 
         let title =  req.body.title;
-        let description = req.body.description;
-        let type = req.body.type;
-        let ammount = req.body.ammount;
+        let image = req.body.image;
+        let cost = req.body.cost;
         let userId = sessions.username;
-
-        if (title && description && type && userId){
-            income.createIncome(title,description,type,ammount,userId, result => {
-                if(result){
-                    console.log("Created Income with id  " + result._id);
+        let placeId = req.body.placeId;
+        let quantity = req.body.quantity;
+        if (title && image &&placeId && cost && userId) {
+            transaction.createPurchase(title, image, cost,quantity, placeId,userId, result => {
+                if (result) {
+                    console.log("Created purchase with id  " + result._id);
                     res.send("success");
                 }
-                else{
+                else {
                     res.send("failure");
                 }
             })
@@ -128,6 +159,49 @@ router.route('/addIncome/')
         else {
             res.send("failure")
         }
+    });
+
+router.route('/places/create')
+    .post((req,res) => {
+         let latitude = req.body.latitude;
+         let title = req.body.title;
+         let longitude = req.body.longitude;
+         let userId = sessions.username;
+         if(title && latitude && longitude) {
+             place.createPlace(title, latitude, longitude, userId);
+             res.send("Added")
+         }
+         else res.status(500);
+
+    });
+
+router.route('/places/all')
+    .get((req,res) => {
+        let id = sessions.username;
+
+        place.getUserPlace(id,result=>{
+            if(result){
+                res.send(result);
+            }
+            else{
+                res.status(500);
+            }
+        })
+
+    });
+
+router.route('/places/delete')
+    .post((req,res) => {
+        let id = req.body.id;
+
+
+        place.deletePlace(id,result=>{
+            if(result)  res.send("Deleted")
+            else res.status(500)
+        });
+
+
+
     });
 
 app.post('/signin', (req, res) => {
@@ -197,3 +271,28 @@ app.listen(7777,() => {
 app.use(express.static(path.join(__dirname,"./resources/")));
 
 
+/*router.route('/addIncome/')
+    .post((req,res) => {
+
+        let title =  req.body.title;
+        let description = req.body.description;
+        let type = req.body.type;
+        let ammount = req.body.ammount;
+        let userId = sessions.username;
+
+        if (title && description && type && userId){
+            income.createIncome(title,description,type,ammount,userId, result => {
+                if(result){
+                    console.log("Created Income with id  " + result._id);
+                    res.send("success");
+                }
+                else{
+                    res.send("failure");
+                }
+            })
+        }
+        else {
+            res.send("failure")
+        }
+    });
+*/

@@ -1,40 +1,6 @@
-<div class="menu-button" onclick="show('col-menu')"><i class="material-icons">list</i></div>
+<a class="menu-button" href="#!operations"><i class="material-icons">reply</i></a>
 <div class="row">
-    <div id="col-menu" class="col-menu no-padding" ng-controller="userPurchase">
-        <div class="menu">
-            <div class="header">
-                Привіт,  {{username}}  !
-            </div>
-            <div class="items" >
-                <ul class="nav">
-                    <li>
-                        <a href="#!">
-                            <i class="material-icons">dashboard</i>
-                            <p>Головна</p>
-                        </a>
-                    </li>
-                    <li  class="active">
-                        <a href="#!operations">
-                            <i class="material-icons">book</i>
-                            <p>Операції</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a>
-                            <i class="material-icons">person</i>
-                            <p>Профіль</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a>
-                            <i class="material-icons">lock</i>
-                            <p>Вихід</p>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+
     <div class="col-content no-padding" ng-controller="allPurchase">
         <div class="content" >
             <div class="header">
@@ -43,17 +9,22 @@
 
             <div class="card container single" ng-controller="singlePurchase">
                 <div class="row" ng-init="getSinglePurchase()">
-                <div class="thumbnail col-md-6"><img src="{{img}}" class="left"/></div>
-                <div class="right col-md-6">
-                    <div class="author">
-                        <h2 style="text-align: center; margin:0">{{purchase.title}}</h2>
+                    <div class="thumbnail col-md-6"><img src="{{img}}" class="left"/></div>
+                    <div class="right col-md-6">
+                        <div class="author">
+                            <h2 style="text-align: center; margin:0">{{purchase.title}}</h2>
+                        </div>
+                        <div class="separator"></div>
+                        <p>{{purchase.quantity}}</p>
+                        <div id="map" style="height: 25%; width:75%;margin-left: 12.5%" ></div>
                     </div>
-                    <div class="separator"></div>
-                    <p>{{purchase.description}}</p>
-                    <div id="map" style="height: 70%; width:75%;margin-left: 12.5%" ></div>
                 </div>
+                <div class="row Desc_purch"><div class="col-md-3">Тип : {{purchase.image}}</div><div class="col-md-3">{{right_word}} : {{purchase.cost}} Гривен</div><div class="col-md-4"></div><div class="col-md-2" style="float:right">Дата : {{purchase.date}}</div></div>
+                <div class="input-group pdg" >
+                    <button type="button"  class="btn btn-primary mrg"  data-toggle="modal" data-target="#myModal"  ng-click="delete()">
+                        Delete transaction
+                    </button>
                 </div>
-                <div class="row Desc_purch"><div class="col-md-3">Тип : {{purchase.type}}</div><div class="col-md-3">Витрата : {{purchase.ammount}} Гривен</div><div class="col-md-4"></div><div class="col-md-2" style="float:right">Дата : {{purchase.date}}</div></div>
                 <ul class="ul_hor">
                     <li><i class="fa fa-eye fa-2x"></i></li>
                     <li><i class="fa fa-heart-o fa-2x"></i></li>

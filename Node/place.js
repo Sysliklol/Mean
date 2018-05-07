@@ -9,16 +9,53 @@ const uuidv1 = require('uuid/v1');
 
 module.exports = {
 
-    createPlace: function (title,latitude,longitude) {
-        db.collection('user').insertOne( {
-            "_id" : uuidv1(),
-            "title": title,
-            "latitude": latitude,
-            "longitude": longitude
-        },function(err, result){
-            assert.equal(err, null);
-            console.log("Saved the user sign up details.");
-        });
+    createPlace: function (title,latitude,longitude,userId) {
+        MongoClient.connect(url,function (err,client) {
+            var db = client.db(dbUrl);
+            db.collection('place').insertOne({
+                "_id": uuidv1(),
+                "title": title,
+                "latitude": latitude,
+                "longitude": longitude,
+                "userId": userId
+            }, function (err, result) {
+                assert.equal(err, null);
+                console.log("Saved place");
+            });
+        })
+    },
+
+    getUserPlace: function (userId,callback){
+        MongoClient.connect(url,function (err,client) {
+            var db = client.db(dbUrl);
+            console.log(userId);
+            db.collection('place').find({'userId':userId}).toArray(function (err,result) {
+                assert.equal(err, null);
+                if(result){
+                    console.log(result);
+                    callback(result);
+                }
+                else {
+                    callback(false);
+                }
+
+            })
+        })
+    },
+
+    deletePlace: function(id,callback){
+        MongoClient.connect(url,function (err,client) {
+            var db = client.db(dbUrl);
+            db.collection('place').deleteOne({'_id':id},function(err,result){
+                assert.equal(err, null);
+                if(result){
+                    callback(result);
+                }
+                else {
+                    callback(false);
+                }
+            })
+        })
     }
 
 };
